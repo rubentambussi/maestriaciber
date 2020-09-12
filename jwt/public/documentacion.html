@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ws_calendar</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>
+        hljs.configure({
+            tabReplace: '    ',
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <style>body {
+    position: relative;
+}
+
+h1 {
+    margin-top: 5px;
+}
+
+h1, h2, h3, h4 {
+    color: #2b2b2b;
+}
+
+h2:after {
+    content: ' ';
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    display: none;
+    position: absolute;
+    margin-left: 8px;
+}
+
+h1:hover a, h2:hover a, h3:hover a, h4:hover a, h5:hover a, h6:hover a {
+    color: #a5a5a5;
+    display: initial;
+}
+
+.nav.nav-tabs > li > a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.tab-content {
+    padding-top: 8px;
+}
+
+.table {
+    margin-bottom: 8px;
+}
+
+pre {
+    border-radius: 0px;
+    border: none;
+}
+
+pre code {
+    margin: -9.5px;
+}
+
+.request {
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.response-text-sample {
+    padding: 0px !important;
+}
+
+.response-text-sample pre {
+    margin-bottom: 0px;
+}
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #2b2b2b;
+    padding-top: 20px;
+}
+
+#sidebar-wrapper ul {
+    width: 250px;
+}
+
+#sidebar-wrapper ul li {
+    margin-right: 10px;
+}
+
+#sidebar-wrapper ul li a:hover {
+    background: inherit;
+    text-decoration: none;
+}
+
+#sidebar-wrapper ul li a {
+    display: block;
+    color: #ECF0F1;
+    padding: 6px 15px;
+}
+
+#sidebar-wrapper ul li ul {
+    padding-left: 25px;
+}
+
+#sidebar-wrapper ul li ul li a {
+    padding: 1px 0px;
+}
+
+#sidebar-wrapper ul li a:hover,
+#sidebar-wrapper ul li a:focus {
+    color: #e0c46c;
+    border-right: solid 1px #e0c46c;
+}
+
+#sidebar-wrapper ul li.active > a {
+    color: #e0c46c;
+    border-right: solid 3px #e0c46c;
+}
+
+#sidebar-wrapper ul li:not(.active) ul {
+    display: none;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px 15px 15px 250px;
+}
+</style>
+</head>
+<body data-spy="scroll" data-target=".scrollspy">
+<div id="sidebar-wrapper">
+    <div class="scrollspy">
+    <ul id="main-menu" data-spy="affix" class="nav">
+        <li>
+            <a href="#doc-general-notes">General notes</a>
+        </li>
+        
+        <li>
+            <a href="#doc-api-detail">API detail</a>
+        </li>
+        
+        <li>
+            <a href="#request-permission">permission</a>
+        </li>
+        
+        <li>
+            <a href="#request-validate">validate</a>
+        </li>
+        
+        <li>
+            <a href="#request-timeforv">timeForV</a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+</div>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>ws_calendar</h1>
+
+                <h2 id="doc-general-notes">
+                    General notes
+                    <a href="#doc-general-notes"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                <p>Este servicio está alojado en un PaaS Heroku. Puede ser consumido proporcionando un documento, nro de hash y un identificador de rol (enpoint permission). Se retorna un token que será utilizado como parámetro  (token) en la cabecera para el resto de las peticiones.</p>
+
+
+                
+
+                <h2 id="doc-api-detail">
+                    API detail
+                    <a href="#doc-api-detail"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+                
+                <div class="request">
+
+                    <h3 id="request-permission">
+                        permission
+                        <a href="#request-permission"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><p>Retorna un token para generar una petición al enpoint timeForV.</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-permission-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-permission-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-permission-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+"dni":29405954,
+"hash":"nz3esqpwskhq52suggmrm2rp725202",
+"idRol":54
+}' "https://cryptic-ridge-55520.herokuapp.com/permission/"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-permission-example-http">
+                                <pre><code class="hljs http">POST /permission/ HTTP/1.1
+Host: cryptic-ridge-55520.herokuapp.com
+Content-Type: application/json
+
+{
+"dni":29405954,
+"hash":"nz3esqpwskhq52suggmrm2rp725202",
+"idRol":54
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-validate">
+                        validate
+                        <a href="#request-validate"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><p>Permite validar el token obtenido retornando los datos que fueron proporcionados para generar ese token.</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-validate-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-validate-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-validate-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -H "token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUwMTA3MTUsImF1ZCI6IjA1MjJhNjg4OWU2ZTMwODgxMTg3YWRkMWEzMGMzM2RjNDY5ZmQ5MzciLCJkYXRhIjp7ImRuaSI6Mjk0MDU5NTQsImhhc2giOiJuejNlc3Fwd3NraHE1MnN1Z2dtcm0ycnA3MjUyMDIiLCJpZFJvbCI6NTR9fQ.ebNTaP6c1c1yQGmUnbstaljfLOuTA0Rhxn2Xon9xvBg" "https://cryptic-ridge-55520.herokuapp.com/validate/"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-validate-example-http">
+                                <pre><code class="hljs http">POST /validate/ HTTP/1.1
+Host: cryptic-ridge-55520.herokuapp.com
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUwMTA3MTUsImF1ZCI6IjA1MjJhNjg4OWU2ZTMwODgxMTg3YWRkMWEzMGMzM2RjNDY5ZmQ5MzciLCJkYXRhIjp7ImRuaSI6Mjk0MDU5NTQsImhhc2giOiJuejNlc3Fwd3NraHE1MnN1Z2dtcm0ycnA3MjUyMDIiLCJpZFJvbCI6NTR9fQ.ebNTaP6c1c1yQGmUnbstaljfLOuTA0Rhxn2Xon9xvBg</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-timeforv">
+                        timeForV
+                        <a href="#request-timeforv"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><p>Retorna un json con información de disponibilidad para una fecha, hora y unidad proporcionados.Para los casos en que idUnidad=1 retorna siempre true, idUnidad=2 retorna false, otros casos retorna true o false aleatoriamente.</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-timeforv-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-timeforv-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-timeforv-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -H "token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUwMTA3MTUsImF1ZCI6IjA1MjJhNjg4OWU2ZTMwODgxMTg3YWRkMWEzMGMzM2RjNDY5ZmQ5MzciLCJkYXRhIjp7ImRuaSI6Mjk0MDU5NTQsImhhc2giOiJuejNlc3Fwd3NraHE1MnN1Z2dtcm0ycnA3MjUyMDIiLCJpZFJvbCI6NTR9fQ.ebNTaP6c1c1yQGmUnbstaljfLOuTA0Rhxn2Xon9xvBg" -d '{
+"date":"10/10/2019",
+"time":"10:10:10",
+"idUnidad":54
+}' "https://cryptic-ridge-55520.herokuapp.com/timeForV/"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-timeforv-example-http">
+                                <pre><code class="hljs http">POST /timeForV/ HTTP/1.1
+Host: cryptic-ridge-55520.herokuapp.com
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUwMTA3MTUsImF1ZCI6IjA1MjJhNjg4OWU2ZTMwODgxMTg3YWRkMWEzMGMzM2RjNDY5ZmQ5MzciLCJkYXRhIjp7ImRuaSI6Mjk0MDU5NTQsImhhc2giOiJuejNlc3Fwd3NraHE1MnN1Z2dtcm0ycnA3MjUyMDIiLCJpZFJvbCI6NTR9fQ.ebNTaP6c1c1yQGmUnbstaljfLOuTA0Rhxn2Xon9xvBg
+
+{
+"date":"10/10/2019",
+"time":"10:10:10",
+"idUnidad":54
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <hr>
+                </div>
+                
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("table:not(.table)").addClass('table table-bordered');
+    });
+</script>
+</body>
+</html>
